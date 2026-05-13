@@ -1,0 +1,15 @@
+//Instruction file for conversion of ts into js for node.js to actually run code.
+
+{
+    "compilerOptions":{
+        "target": "es2020", //js ver to compile to
+        "module": "commonjs", //handles file import using commonjs
+        "rootDir": "./src", //location of ts source file
+        "outDir": "./dist", //where compiled js files go to
+        "strict": true, //turns on strict type checking (catch erroes before runtime)
+        "esModuleInterop":true,//Allows packages import cleanly
+        "skipLibCheck": true,  //skips type checking on external packages.Speeds up compilation
+        "moduleResolution": "bundler",    
+    },
+      "include": ["src/**/*"]//compiles files in the src folder including all subfolders only
+}
