@@ -1,13 +1,19 @@
 import app from './app'
 import dotenv from 'dotenv'
+import 'reflect-metadata'
+import { AppDataSource } from './config/database'
 
 dotenv.config()
 
 const PORT = process.env.PORT || 3000
 
-// Start the server
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`)
-}).on('error', (err) => {
-    console.log('Server error:', err)
+AppDataSource.initialize().then(() =>{
+
+    console.log('Database connected successfully')
+    app.listen(PORT, ()=>{
+        console.log('Server running on port ${PORT}')
+    })
+})
+.catch((error) => {
+    console.log('Database connection failed:', error)
 })
