@@ -3,7 +3,7 @@ import { Request, Response } from 'express'
 import cors from 'cors'
 import helmet from 'helmet'
 import dotenv from 'dotenv'
-
+import userRoutes from './modules/user/user.routes'
 // Load environment variables
 dotenv.config()
 
@@ -14,7 +14,7 @@ const app = express()
 app.use(cors())         // allow frontend requests
 app.use(helmet())       // add security headers
 app.use(express.json()) // parse JSON request body
-
+app.use('/api/v1/auth', userRoutes)
 // Health check endpoint
 app.get('/health', (req: Request, res: Response) => {
     res.json({ status: 'OK', message: 'Car rental API is running' })

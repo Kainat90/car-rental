@@ -13,6 +13,6 @@ password: process.env.DB_PASSWORD,
 database: 'car_rental_db',
 synchronize: false,
 logging: true,
-entities: ['User'],
+entities: [User],
 migrations: ['src/migration/*.ts']
 })

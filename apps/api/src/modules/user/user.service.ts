@@ -2,7 +2,7 @@ import { AppDataSource } from "../../config/database";
 import { User } from "./entity/user.entity";
 import bcrypt from 'bcrypt'
 import { IRegisterUser, ILoginUser } from "./user.types";
-
+import jwt from "jsonwebtoken";
 const userRepository = AppDataSource.getRepository(User)
 
 export const registerUser = async (data: IRegisterUser) => {
@@ -54,7 +54,26 @@ export const loginUser = async (data: ILoginUser) => {
         throw new Error('Invalid email or password!')
     }
 
-    // return safe fields only
+    //generate access token
+
+    const accessToken = jwt.sign(
+        {id: user.id,email:user.email,user_type: user.user_type},
+        process.env.JWT_SECRET as string,
+        {expiresIn: '15m'}
+    )
+ // generate refresh token
+    const refreshToken = jwt.sign(
+        { id: user.id },
+        process.env.REFRESH_TOKEN_SECRET as string,
+        { expiresIn: '7d' }
+    )
+
+    // return safe fields + tokens
     const { password_hash: _, ...safeUser } = user
-    return safeUser
+    return {
+        user: safeUser,
+        accessToken,
+        refreshToken
+    }
+
 }
