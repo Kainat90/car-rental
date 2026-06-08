@@ -76,4 +76,18 @@ export const loginUser = async (data: ILoginUser) => {
         refreshToken
     }
 
+    
+
+}
+
+ export const logoutUser = async () => {
+    // without Redis, just return success
+    // client is responsible for deleting the token
+    return { message: 'Logged out successfully' }
+}
+
+export const deleteUser = async (id: number) => {
+    const userRepository = AppDataSource.getRepository(User)
+    await userRepository.delete({ id })
+    return { message: 'Deleted successfully' }
 }
