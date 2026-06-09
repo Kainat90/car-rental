@@ -11,7 +11,10 @@
         "skipLibCheck": true,  //skips type checking on external packages.Speeds up compilation
         "moduleResolution": "node16",
         "experimentalDecorators": true,
-        "emitDecoratorMetadata": true    
+        "emitDecoratorMetadata": true,
+        
     },
+
+    
       "include": ["src/**/*"]//compiles files in the src folder including all subfolders only
 }
