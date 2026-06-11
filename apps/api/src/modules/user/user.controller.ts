@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { registerUser, loginUser, logoutUser, getMe } from './user.service'
 import{deleteUser as deleteUserService} from './user.service'
 import { AuthRequest } from "../../middleware/auth.middleware";
+import { error } from "node:console";
 export const register = async (req: Request, res: Response) => {
     try {
         const user = await registerUser(req.body)
@@ -84,12 +85,3 @@ export const getMeController = async (req:AuthRequest,res:Response)=>{
             })
         }
     }
-
-
-export const patch = async (req:AuthRequest, res:Response)=>{
-
-    try {
-
-        const user = await userRepository.findOne({where:{id}})these
-    }
-} 

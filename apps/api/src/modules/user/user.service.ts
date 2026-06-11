@@ -3,6 +3,11 @@ import { User } from "./entity/user.entity";
 import bcrypt from 'bcrypt'
 import { IRegisterUser, ILoginUser } from "./user.types";
 import jwt from "jsonwebtoken";
+
+export interface IUpdateUser {
+  phone?: string;
+  business_name?: string;
+}
 const userRepository = AppDataSource.getRepository(User)
 
 export const registerUser = async (data: IRegisterUser) => {
@@ -103,4 +108,35 @@ export const getMe= async (id: number) => {
     if (!user){
         throw new Error ('User Not Found')
     }
+}
+
+export const updateMe = async (id: number, data: IUpdateUser) => {
+    const userRepository = AppDataSource.getRepository(User)
+
+    const user = await userRepository.findOne({
+        where: { id }
+    })
+
+    if (!user) {
+        throw new Error('User not found')
+    }
+
+    // whitelist allowed fields
+    const allowedFields: (keyof IUpdateUser)[] = [
+        "phone",
+        "business_name"
+    ]
+
+    for (const key of allowedFields) {
+        const value = data[key]
+
+        if (value !== undefined) {
+            user[key] = value
+        }
+    }
+
+    const updatedUser = await userRepository.save(user)
+
+    const { password_hash: _, ...safeUser } = updatedUser
+    return safeUser
 }
