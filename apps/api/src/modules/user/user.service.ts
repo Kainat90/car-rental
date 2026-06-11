@@ -91,3 +91,16 @@ export const deleteUser = async (id: number) => {
     await userRepository.delete({ id })
     return { message: 'Deleted successfully' }
 }
+
+export const getMe= async (id: number) => {
+
+    const userRepository = AppDataSource.getRepository(User)
+
+    const user = await userRepository.findOne({
+        where: {id}
+    })
+
+    if (!user){
+        throw new Error ('User Not Found')
+    }
+}
