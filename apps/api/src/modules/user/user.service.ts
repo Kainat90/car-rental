@@ -8,10 +8,11 @@ export interface IUpdateUser {
   phone?: string;
   business_name?: string;
 }
-const userRepository = AppDataSource.getRepository(User)
+
 
 export const registerUser = async (data: IRegisterUser) => {
     // check if email already exists
+     const userRepository = AppDataSource.getRepository(User)
     const existingUser = await userRepository.findOne({
         where: { email: data.email }
     })
@@ -44,6 +45,7 @@ export const registerUser = async (data: IRegisterUser) => {
 
 export const loginUser = async (data: ILoginUser) => {
     // find user by email
+     const userRepository = AppDataSource.getRepository(User)
     const user = await userRepository.findOne({
         where: { email: data.email }
     })
@@ -108,6 +110,9 @@ export const getMe= async (id: number) => {
     if (!user){
         throw new Error ('User Not Found')
     }
+
+    const {password_hash:_,...safeUser} = user 
+    return safeUser
 }
 
 export const updateMe = async (id: number, data: IUpdateUser) => {

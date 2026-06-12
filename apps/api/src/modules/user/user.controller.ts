@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { registerUser, loginUser, logoutUser, getMe } from './user.service'
+import { registerUser, loginUser, logoutUser, getMe, updateMe } from './user.service'
 import{deleteUser as deleteUserService} from './user.service'
 import { AuthRequest } from "../../middleware/auth.middleware";
 import { error } from "node:console";
@@ -83,5 +83,22 @@ export const getMeController = async (req:AuthRequest,res:Response)=>{
                 success: false,
                 message: error.message
             })
+        }
+    }
+
+    export const updateMeController = async (req:AuthRequest,res:Response)=>{
+
+        try{
+            const user = await updateMe (req.user!.id, req.body)
+            res.status(200).json({
+                success: true,
+                data:user
+            })
+ 
+        } catch (error: any){
+            res.status(400).json({
+                success: false,
+                message: error.message
+        })
         }
     }
