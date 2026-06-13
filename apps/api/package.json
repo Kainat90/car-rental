@@ -6,9 +6,14 @@
   "scripts": {
     "dev": "ts-node-dev --respawn src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "migration:generate": "typeorm-ts-node-commonjs migration:generate -d src/config/database.ts",
-    "migration:run": "typeorm-ts-node-commonjs migration:run -d src/config/database.ts",
-    "seed": "ts-node src/seeders/user.seeder.ts"
+    "migration:run":        "ts-node src/scripts/migrate.ts migration:run",
+    "migration:revert":     "ts-node src/scripts/migrate.ts migration:revert",
+    "migration:revert:all": "ts-node src/scripts/migrate.ts migration:revert:all",
+    "migration:status":     "ts-node src/scripts/migrate.ts migration:status",
+    "seed:run":             "ts-node src/scripts/migrate.ts seed:run",
+    "seed:revert":          "ts-node src/scripts/migrate.ts seed:revert",
+    "seed:status":          "ts-node src/scripts/migrate.ts seed:status"
+    
 
   },
   "keywords": [],

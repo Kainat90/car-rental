@@ -152,3 +152,40 @@ export const updateMe = async (id: number, data: IUpdateUser) => {
     const { password_hash: _, ...safeUser } = updatedUser
     return safeUser
 }
+
+
+    //use refresh token to generate new access token
+
+    export const refreshTokenService = async (token:string)=>{
+
+        try{
+            const decoded = jwt.verify(
+                token,
+                process.env.REFRESH_TOKEN_SECRET as string
+            ) as {id: number}
+
+            const userRepository = AppDataSource.getRepository(User)
+            const user = await userRepository.findOne({
+                where: { id: decoded.id}
+            })
+
+            if (!user){
+
+                throw new Error('User not found')
+            }
+
+            const accessToken = jwt.sign(
+
+                {id: user.id, email: user.email,user_type: user.user_type},
+                process.env.JWT_SECRET as string,
+                {expiresIn: '15m'}
+
+            )
+
+            return {accessToken}
+        } catch (error){
+            throw new Error('Invalid or expired refresh token')
+        }
+
+
+    }
