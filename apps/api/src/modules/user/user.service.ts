@@ -7,6 +7,8 @@ import jwt from "jsonwebtoken";
 export interface IUpdateUser {
   phone?: string;
   business_name?: string;
+  first_name?:string
+  last_name:string
 }
 
 
@@ -26,6 +28,8 @@ export const registerUser = async (data: IRegisterUser) => {
 
     // create user object
     const user = userRepository.create({
+        first_name:data.first_name,
+        last_name:data.last_name,
         user_type: data.user_type,
         email: data.email,
         phone: data.phone,
@@ -128,8 +132,11 @@ export const updateMe = async (id: number, data: IUpdateUser) => {
 
     // whitelist allowed fields
     const allowedFields: (keyof IUpdateUser)[] = [
+        "first_name",
+        "last_name",
         "phone",
         "business_name"
+
     ]
 
     for (const key of allowedFields) {

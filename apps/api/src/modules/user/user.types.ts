@@ -2,6 +2,8 @@ import { UserType, RegistrationType } from './entity/user.entity'
 export interface IRegisterUser{
 
     user_type: UserType
+    first_name: string
+    last_name:string
     email: string
     phone?: string
     password: string

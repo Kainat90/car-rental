@@ -37,6 +37,12 @@ export class User{
     @Column ({ type: 'enum',enum: RegistrationType, nullable:true})
     registration_type!:RegistrationType
 
+    @Column({})
+    first_name!: string
+
+    @Column({nullable:true})
+    last_name!: string
+
     @Column({unique:true})
     email!:string
 
