@@ -4,18 +4,19 @@ import cors from 'cors'
 import helmet from 'helmet'
 import dotenv from 'dotenv'
 import userRoutes from './modules/user/user.routes'
-// Load environment variables
+import vehicleRoutes from './modules/vendor-vehicle/vendor-vehicle.routes'
+
 dotenv.config()
 
-// Create Express app instance
 const app = express()
 
-// Middleware
-app.use(cors())         // allow frontend requests
-app.use(helmet())       // add security headers
-app.use(express.json()) // parse JSON request body
+app.use(cors())
+app.use(helmet())
+app.use(express.json())
+
 app.use('/api/v1/auth', userRoutes)
-// Health check endpoint
+app.use('/api/v1/vehicles', vehicleRoutes)
+
 app.get('/health', (req: Request, res: Response) => {
     res.json({ status: 'OK', message: 'Car rental API is running' })
 })

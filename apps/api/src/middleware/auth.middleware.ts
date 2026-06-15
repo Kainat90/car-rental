@@ -29,3 +29,17 @@ const token = authHeader.split(' ')[1]
     res.status(401).json({message:'Invalid token!'})
 }
 }
+
+export const requireRole = (...roles: string[]) => {
+    return (req: AuthRequest, res: Response, next: NextFunction) => {
+        if (!req.user) {
+            res.status(401).json({ message: 'Unauthorized' })
+            return
+        }
+        if (!roles.includes(req.user.user_type)) {
+            res.status(403).json({ message: 'Forbidden: insufficient permissions' })
+            return
+        }
+        next()
+    }
+}
